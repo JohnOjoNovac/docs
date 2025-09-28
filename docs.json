@@ -1,9 +1,9 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "palm",
+  "name": "Novac Payment",
   "colors": {
-    "primary": "#16A34A",
+    "primary": "#C3D364",
     "light": "#07C983",
     "dark": "#15803D"
   },
@@ -11,7 +11,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
             "group": "Getting started",
@@ -50,20 +50,56 @@
       {
         "tab": "API reference",
         "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
+            {
+              "group": "Checkout",
+              "pages": [
+                "api-reference/checkout/initiate-checkout",
+                "api-reference/checkout/create-payment-link",
+                "api-reference/checkout/create-ussd-payment",
+                "api-reference/checkout/get-bank-ussd",
+                "api-reference/checkout/transaction-fee",
+                "api-reference/checkout/validate-card-otp",
+                "api-reference/checkout/verify-checkout-transaction",
+                "api-reference/checkout/verify-transaction",
+                "api-reference/checkout/bank-transfer",
+                "api-reference/checkout/save-customer-card"
+                
+              ]
+            },
+            {
+              "group": "Collections",
+              "pages": [
+                "api-reference/collections/direct-card-charge",
+                "api-reference/collections/direct-card-charge-internal",
+                "api-reference/collections/tokenized-card-charge",
+                "api-reference/collections/transaction-verify",
+                "api-reference/collections/transaction-verify-ref",
+                "api-reference/collections/encrypt-data",
+                "api-reference/collections/decrypt-data",
+                "api-reference/collections/threeds-challenge",
+                "api-reference/collections/get-threeds-challenge-status",
+                "api-reference/collections/direct-card-charge-auth",
+                "api-reference/collections/void-transaction"
+              ]
+            },
+            {
+              "group": "Payout",
+              "pages": [
+                "api-reference/payouts/retrieve-payout-banks",
+                "api-reference/payouts/verify-bank-account",
+                "api-reference/payouts/initiate-transfer",
+                "api-reference/payouts/retrieve-bank-transaction",
+                "api-reference/payouts/retrieve-balance"
+              ]
+            },
+            {
+              "group": "Refunds",
+              "pages": [
+                "api-reference/refunds/create-refund",
+                "api-reference/refunds/create-partial-refund",
+                "api-reference/refunds/retrieve-single-refund",
+                "api-reference/refunds/retrieve-refund-lists"
+              ]
           }
         ]
       }
@@ -104,18 +140,6 @@
       "label": "Dashboard",
       "href": "https://dashboard.mintlify.com"
     }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
   },
   "footer": {
     "socials": {
