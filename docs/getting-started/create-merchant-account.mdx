@@ -1,0 +1,83 @@
+---
+title: Create a Merchant Account
+description: Learn how to sign up for a Novac merchant account and get started with payments.
+---
+
+## Overview  
+
+Before you can access Novac Payment APIs or start accepting payments, you’ll need a **merchant account**.  
+This account serves as your business profile on Novac and will be used to manage payments, payouts, refunds, and compliance requirements.  
+
+## Steps to Create a Merchant Account
+
+<Steps>
+  <Step title="Step 1 - Create your account (Sign up)">
+    Go to the [**Sign Up**](https://www.app.novacpayment.com/register) page and complete the registration form. Provide a valid email address, we’ll use this to verify your account, choose a strong password, and fill any required business details.
+
+    **Tips**
+    - Use a strong password (8+ characters recommended).  
+    - If you plan to accept payments from customers, use your business email for clarity in communications.
+  </Step>
+
+  <Step title="Step 2 - Verify your email">
+    After sign up, check your inbox for a verification message from **hello@novacpayment.com** and click the verification link to activate your account.
+
+    **If you don't see the email**
+    - Check Spam/Promotions folders.  
+    - Use the **Resend verification** option on the signup page.  
+    - If the link expires, request a fresh verification email.
+
+    Once verified you will either receive a login link or be redirected to the Novac dashboard.
+  </Step>
+
+  <Step title="Step 3 - Finalize your account & Complete your KYC">
+    After logging in, complete your account profile so the dashboard can show the right tools and configuration options.
+
+    **Common fields to fill**
+    - Business/legal name and address.  
+    - Business phone number and website.  
+    - Billing / contact email.  
+    - Default currency and expected monthly transaction volume.  
+    - Bank account for receiving payouts (if you plan to use payouts).
+
+    **Why this matters**
+    - Accurate details speed up KYC and payout setup.  
+    - The dashboard uses this information to pre-fill forms and generate correct receipts and statements.
+  </Step>
+
+  <Step title="Step 4 - Complete KYC (Know Your Customer)">
+    To access live payment features (payouts, larger volumes, live API keys) you’ll need to submit KYC information.
+
+    **Typical documents you may be asked for**
+    - Business registration/incorporation document (e.g., certificate of incorporation).  
+    - Government-issued ID (passport, national ID, or driver’s license) for beneficial owners and signatories.  
+    - Proof of address (utility bill or bank statement dated within last 3 months).  
+    - Bank statement or voided cheque for the account that will receive payouts.  
+    - A short statement of business activity or website link (helps verification).
+
+    **Process**
+    - Upload documents via the Dashboard → Settings → KYC (or the onboarding flow).  
+    - Review times vary — you’ll be notified by email when the review completes.  
+    - While KYC is pending, you can still use **Test mode** to integrate and validate your code.
+  </Step>
+
+  <Step title="Step 5 - Retrieve your API keys">
+    Once your account is set up and KYC is completed, proceed to get your API keys; see [obtain API keys](docs/getting-started/obtain-api-keys)> to get started.
+  </Step>
+</Steps>
+
+---
+
+## Next steps
+
+**Before going live**
+
+- Complete KYC and confirm live keys are visible.  
+- Add your production secret key to a secure secrets manager.  
+- Test full payment flows in Test mode (hosted checkout, direct charge, tokenization, refunds, webhooks).  
+- Configure webhooks and verify signature verification locally.
+
+---
+
+**🎉 Congratulations!**  
+After completing these steps you’ll have created your Novac account, verified identity, and retrieved the API keys needed to integrate payments.

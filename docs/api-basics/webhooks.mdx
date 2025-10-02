@@ -1,0 +1,230 @@
+---
+title: Webhooks
+description: Learn how to set up and handle webhook notifications in Novac Payment.
+---
+
+## Overview  
+
+Webhooks are a communication mechanism that enable event-driven notifications between systems. When an event occurs in System A, it notifies System B in real time without requiring System B to constantly check for updates. Typically, System B subscribes to these notifications by providing a publicly accessible URL to System A.
+
+<Note> 
+   Webhook URLs must be publicly accessible at all times in order to receive notifications.   
+</Note>
+
+In Novac, implementing webhooks works the same way. After a transaction is completed, Novac will send real-time updates to your application via a POST request to the webhook URL you configured. Instead of polling the API for payment status, your system will automatically be notified whenever a payment event occurs.
+
+This makes it easier to keep your system in sync with payment statuses.  
+
+```mermaid
+    sequenceDiagram
+    participant C as Customer
+    participant N as Novac Payment System
+    participant M as Merchant System
+
+    C->>N: Initiates payment (card/bank/mobile)
+    N->>N: Process & authorize payment
+    N-->>C: Payment status (success/failure)
+
+    Note over N,M: Webhook event triggered
+
+    N->>M: HTTP POST request (webhook notification)<br/> {reference, status, amount, ...}
+    M->>N: 200 OK (acknowledge receipt)
+
+    Note over M: Merchant verifies transaction<br/>via Verify Transaction API
+```
+
+This diagram illustrates the communication process that occurs from the moment the customer makes a payment until the Novac system authorizes that payment. After that, the webhook event is sent via the established communication channel for verification to the merchant system. 
+
+---
+
+
+## Setting Up Your Webhook
+
+<Steps>
+  <Step title="Step 1 - Log in to your Novac Dashboard">
+    Sign in to your [**Novac Dashboard**](https://app.novacpayment.com) using your account credentials.  
+  </Step>
+
+  <Step title="Step 2 - Navigate to Webhooks">
+    From the sidebar menu, go to Settings, Click on API settings tab.  
+    This is where you can configure both test and live webhook URLs.
+  </Step>
+
+  <Step title="Step 3 - Add your Webhook URLs and Click on Save">
+    Enter the publicly accessible URLs where you want to receive webhook notifications.  
+  </Step>
+</Steps>
+
+<Note>
+    - Add a test webhook URL for sandbox/test transactions.  
+    - Add a live webhook URL for real payments in production.  
+    - Ensure the URLs are always available and accept `POST` requests.
+</Note>
+
+Novac will send an HTTP `POST` request to these URLs after a transaction is completed.  
+
+---
+
+## Webhook Request Format  
+
+Currently, Novac sends a callback to your webhook URL with query parameters. The reference can be used to verify transaction instantly before giving value to the customer. 
+
+```http
+POST {your-webhook-url}?reference=string&status=string
+```
+
+## Handling Webhook
+
+Define a `POST` endpoint on your server that can accept and process the callback sent with the webhooks from Novac to your system. This endpoint must not require authentication. Safely parse the reference and status, as the value will be used to verify the transaction.
+
+This method allows you to fetch the full transaction details directly from Novac, instead of relying only on the status passed in the webhook.
+
+Below shows an example of how to quickly listen to this event and verify transactions by parsing the reference via verify transaction in various programming languages.
+
+
+
+<CodeGroup>
+```JavaScript NodeJs
+import express from "express";
+import axios from "axios";
+
+const app = express();
+
+app.post("/webhook", async (req, res) => {
+  const { reference, status } = req.query;
+
+  // Verify transaction with Novac API
+  try {
+    const response = await axios.get(
+      `https://api.novacpayment.com/api/v1/checkout/{reference}/verify \`,
+      {
+        headers: { Authorization: `Bearer ${process.env.NOVAC_SECRET_KEY}` },
+      }
+    );
+
+    const transaction = response.data;
+    console.log("Verified Transaction:", transaction);
+
+    // Process the transaction result in your system here
+  } catch (error) {
+    console.error(error.message);
+  }
+
+  res.sendStatus(200);
+});
+
+```
+
+```php PHP
+<?php
+$input = json_decode(file_get_contents('php://input'), true);
+
+$reference = $input['reference'] ?? null;
+$status = $input['status'] ?? null;
+
+error_log("Webhook received: Reference=$reference Status=$status");
+
+// Verify transaction with Novac API
+$secretKey = getenv("NOVAC_PUBLIC_KEY");
+$url = "https://api.novacpayment.com/api/v1/checkout/{$reference}/verify";
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    "Authorization: Bearer $secretKey"
+]);
+$response = curl_exec($ch);
+curl_close($ch);
+
+if ($response) {
+    error_log("Verified Transaction: $response");
+} else {
+    error_log("Verification failed");
+}
+
+http_response_code(200); 
+
+```
+
+```go Golang
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"os"
+)
+
+type WebhookPayload struct {
+	Reference string `json:"reference"`
+	Status    string `json:"status"`
+}
+
+func webhookHandler(w http.ResponseWriter, r *http.Request) {
+	var payload WebhookPayload
+	body, _ := ioutil.ReadAll(r.Body)
+	json.Unmarshal(body, &payload)
+
+	fmt.Printf("Webhook received: Reference=%s Status=%s\n", payload.Reference, payload.Status)
+
+	// Verify with Novac API
+	secretKey := os.Getenv("NOVAC_SECRET_KEY")
+	url := fmt.Sprintf("https://api.novacpayment.com/api/v1/checkout/%s/verify", payload.Reference)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("Authorization", "Bearer "+secretKey)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Verification failed:", err)
+	} else {
+		defer resp.Body.Close()
+		respBody, _ := ioutil.ReadAll(resp.Body)
+		fmt.Println("Verified Transaction:", string(respBody))
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func main() {
+	http.HandleFunc("/webhook", webhookHandler)
+	fmt.Println("Webhook server running on :3000")
+	http.ListenAndServe(":3000", nil)
+}
+
+```
+
+```py python
+from flask import Flask, request
+import requests
+import os
+
+app = Flask(__name__)
+
+@app.route("/webhook", methods=["POST"])
+def webhook():
+    data = request.json
+    reference = data.get("reference")
+    status = data.get("status")
+
+    print(f"Webhook received: Reference={reference}, Status={status}")
+
+    try:
+        url = f"https://api.novacpayment.com/api/v1/checkout/{reference}/verify"
+        headers = {"Authorization": f"Bearer {os.getenv('NOVAC_SECRET_KEY')}"}
+        response = requests.get(url, headers=headers)
+
+        print("Verified Transaction:", response.json())
+    except Exception as e:
+        print("Verification failed:", str(e))
+
+    return "", 200  # acknowledge webhook
+
+if __name__ == "__main__":
+    app.run(port=3000, debug=True)
+
+```
+</CodeGroup>

@@ -1,0 +1,52 @@
+---
+title: Encryption
+description: Learn how encryption protects sensitive payment data when using Novac Payment APIs.
+---
+
+## What is Payment Encryption?
+
+In payment systems, sensitive data such as card numbers, CVV, and bank details must be protected.  
+If exposed, this information could be used by malicious actors to impersonate customers and perform fraudulent transactions.  
+
+Encryption is the process of converting sensitive data into a secure, unreadable format. Without the correct decryption key, unauthorized parties cannot make sense of the data. This ensures that even if intercepted, the information remains useless to attackers.  
+
+## Why It Matters
+
+Encrypting customer card details and bank information is a fundamental security requirement when integrating with Novac’s Direct Card Charge API.  
+
+Instead of asking you to implement and maintain your own encryption algorithms, Novac provides a ready-to-use encryption service.
+
+<Note>
+   To simplify your integration, Novac offers an encryption endpoint where you can send customer card details.  The API will return an encrypted version of the data, which you can safely transmit during transactions. You can also use the provided decryption method when needed.  
+</Note>
+
+<CodeGroup>
+   ```json Encryption API
+    curl --request POST \
+        --url https://api.novacpayment.com/api/v1/encrypt-data \
+        --header 'Authorization: <api-key>' \
+        --header 'Content-Type: application/json' \
+        --data '{
+        "data": {
+            "number": "<string>",
+            "expiryMonth": "<string>",
+            "expiryYear": "<string>",
+            "cvv": "<string>",
+            "pin": "<string>"
+        },
+        "reference": "<string>"
+    }'  
+   ```
+   ```json Decryption API 
+    curl --request POST \
+    --url https://api.novacpayment.com/api/v1/decrypt-data \
+    --header 'Authorization: <api-key>' \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "encryptedData": "<string>",
+        "reference": "<string>"
+    }'
+   ```
+</CodeGroup>
+
+

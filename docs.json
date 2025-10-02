@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "palm",
-  "name": "Novac Payment",
+  "name": "Novac",
   "colors": {
     "primary": "#C3D364",
     "light": "#07C983",
@@ -16,7 +16,7 @@
           {
             "group": "INTRODUCTION",
             "pages": [
-              "docs/introduction/welcome-to-novac-payment",
+              "docs/introduction/welcome-to-novac",
               "docs/introduction/key-features",
               "docs/introduction/glossary"
             ]
@@ -94,9 +94,9 @@
             "group": "API BASICS",
             "pages": [
               "docs/api-basics/environment",
+              "docs/api-basics/encryption",
               "docs/api-basics/testing",
               "docs/api-basics/best-practices",
-              "docs/api-basics/pagination",
               "docs/api-basics/webhooks",
               "docs/api-basics/errors"
             ]
@@ -109,6 +109,7 @@
             {
               "group": "Checkout",
               "pages": [
+                "api-reference/checkout/introduction",
                 "api-reference/checkout/initiate-checkout",
                 "api-reference/checkout/create-ussd-payment",
                 "api-reference/checkout/get-bank-ussd",
@@ -117,19 +118,20 @@
                 "api-reference/checkout/verify-checkout-transaction",
                 "api-reference/checkout/verify-transaction",
                 "api-reference/checkout/bank-transfer",
-                "api-reference/checkout/save-customer-card"
-                
+                "api-reference/checkout/save-customer-card" 
               ]
             },
             {
               "group": "Payment Link",
               "pages": [
+                "api-reference/payment-links/introduction",
                 "api-reference/payment-links/create-payment-link"
               ]
             },
             {
               "group": "Collections",
               "pages": [
+                "api-reference/collections/introduction",
                 "api-reference/collections/direct-card-charge",
                 "api-reference/collections/direct-card-charge-internal",
                 "api-reference/collections/tokenized-card-charge",
@@ -146,6 +148,7 @@
             {
               "group": "Payouts",
               "pages": [
+                "api-reference/payouts/introduction",
                 "api-reference/payouts/retrieve-payout-banks",
                 "api-reference/payouts/verify-bank-account",
                 "api-reference/payouts/initiate-transfer",
@@ -156,6 +159,7 @@
             {
               "group": "Refunds",
               "pages": [
+                "api-reference/refunds/introduction",
                 "api-reference/refunds/create-refund",
                 "api-reference/refunds/create-partial-refund",
                 "api-reference/refunds/retrieve-single-refund",
@@ -165,12 +169,14 @@
             {
               "group": "Reports",
               "pages": [
+                "api-reference/reports/introduction",
                 "api-reference/reports/retrieve-report-details"
               ]
             },
             {
               "group": "Virtual Accounts",
               "pages": [
+                "api-reference/virtual-account/introduction",
                 "api-reference/virtual-account/bank-list",
                 "api-reference/virtual-account/create-virtual-account",
                 "api-reference/virtual-account/retrieve-virtual-account-by-reference",
@@ -184,29 +190,36 @@
               ]
             }
         ]
+      },
+      {
+        "tab": "Changelog",
+        "group": "INTRODUCTION",
+            "pages": [
+              "update"
+            ]
       }
     ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/favicon.png",
+    "dark": "/logo/favicon.png"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://www.app.novacpayment.com/login"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
+      "x": "https://x.com/mintlif0",
       "github": "https://github.com/mintlify",
       "linkedin": "https://linkedin.com/company/mintlify"
     }

@@ -1,0 +1,45 @@
+---
+title: Obtain API Keys
+description: Learn how to access your API keys and authenticate requests to Novac Payment APIs.
+---
+
+## Overview 
+
+To ensure seamless communication between your application and Novac Payment, you'll need your API keys. Novac uses these keys to authenticate every request from your application.  
+
+Each account is provided with two sets of API keys **public** and **secret** for both **Test** and **Live** environment.  
+
+### Public keys 
+
+Public keys are safe to use on the client-side. They are typically used for initiating transactions such as **checkout, payment links, and in-app collections**. Public keys cannot modify your account or access sensitive data.  
+
+### Secret keys 
+
+Secret keys are highly sensitive and must be kept confidential. They are used for secure operations such as **payouts, refunds, and accessing financial data**. All server-side API calls should be authenticated with your secret key.  
+
+<Warning>
+  Never expose your secret keys in client-side code. If you suspect that your secret key has been compromised, you can quickly regenerate it on your Novac dashboard. This renders the old one useless.
+</Warning>
+
+## Obtaining your API Keys
+
+You can easily access your API keys from the Novac dashboard.  
+  
+<Steps>
+  <Step title="Log in to your Novac dashboard">
+    Start by signing in to your Novac account to access your dashboard.  
+  </Step>
+  <Step title="Go to Settings from the side pane">
+    In the dashboard sidebar, click on **Settings** to manage your account preferences.  
+  </Step>
+  <Step title="Select the API Settings tab">    
+    <Frame>
+      <img 
+        src="/images/api-keys.png" 
+        alt="Novac dashboard API Settings tab showing Public and Secret API keys for Test and Live environments. The interface displays key values and options to regenerate keys. The environment is a clean dashboard layout with sidebar navigation. Text in the image includes API Settings, Public Key, Secret Key, Test, Live, and Regenerate." 
+      />
+    </Frame>
+  </Step>
+</Steps>
+
+Under the **API Settings** section, you’ll see both your **Test API keys** and **Production API Keys**. 

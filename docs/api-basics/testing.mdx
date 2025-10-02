@@ -1,0 +1,57 @@
+---
+title: Testing
+description: Use Novac test credentials to simulate payment flows before going live.
+---
+
+## Overview
+
+Novac provides test credentials that allow you to simulate different payment scenarios while integrating with the gateway.  
+These credentials help you test successful payments, failed transactions, and OTP validation before switching to the live environment.  
+
+## Successful Transaction Test Card
+
+Use this card to simulate successful transactions. Make sure you set a valid future date for the expiryMonth and expiryYear.
+
+```json
+{
+  "cardNumber": "5555555555554444",
+  "expiryMonth": "Any future month (e.g., 12)",
+  "expiryYear": "Any future year (e.g., 2028)",
+  "cvv": "Any 3 digits (e.g., 123)",
+  "cardPin": "Any 4 digits (e.g., 1234)"
+}
+```
+
+When to Use: This test card simulates a typical debit/credit card that will result in a “successful” payment response.
+Expected Gateway Response: Payment approved or success.
+
+
+## Failed Transaction Test Card
+
+Use this card to simulate failed transactions. Again, ensure you have a valid future date for the expiry.
+
+```json
+{
+  "cardNumber": "1234567898765432",
+  "expiryMonth": "Any future month (e.g., 12)",
+  "expiryYear": "Any future year (e.g., 2028)",
+  "cvv": "Any 3 digits (e.g., 456)",
+  "cardPin": "Any 4 digits (e.g., 5678)"
+}
+```
+
+When to Use: This test card forces a transaction failure (e.g., insufficient funds, declined transaction).
+Expected Gateway Response: Payment declined or failure.
+
+## OTP Validation
+
+Use this OTP to simulate additional verification (3-D Secure or other form of 2FA).
+
+```json
+{
+  "otp": "Any 6 digits (e.g., 123456)"
+}
+```
+
+When to Use: After initiating a payment with a card and additional verification is requested.
+Expected Gateway Response: OTP verified or OTP error if incorrect.
