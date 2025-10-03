@@ -1,9 +1,9 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "palm",
+  "name": "Novac",
   "colors": {
-    "primary": "#16A34A",
+    "primary": "#C3D364",
     "light": "#07C983",
     "dark": "#15803D"
   },
@@ -11,38 +11,94 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "INTRODUCTION",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "docs/introduction/welcome-to-novac",
+              "docs/introduction/key-features",
+              "docs/introduction/glossary"
             ]
           },
           {
-            "group": "Customization",
+            "group": "GETTING STARTED",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "docs/getting-started/create-merchant-account",
+              "docs/getting-started/obtain-api-keys"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "ACCEPT PAYMENT",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              {
+                "group": "Payment methods",
+                "pages": [
+                  "make-payments/accounts/verify-bank-account",
+                  "make-payments/accounts/retrieve-payout-banks"
+                ] 
+              },
+              {
+                "group": "Plugins and integrations",
+                "pages": [
+                  "make-payments/accounts/verify-bank-account",
+                  "make-payments/accounts/retrieve-payout-banks"
+                ] 
+              },
+              {
+                "group": "Use cases",
+                "pages": [
+                  "docs/accept-payment/use-cases/accept-payment-with-payment-links",
+                  "docs/accept-payment/use-cases/accept-payment-with-prebuilt-checkout",
+                  "docs/accept-payment/use-cases/refund-a-transaction",
+                  "docs/accept-payment/use-cases/accept-payment-with-custom-checkout"
+                ] 
+              }
             ]
           },
           {
-            "group": "AI tools",
+            "group": "MAKE PAYMENTS",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              {
+                "group": "Accounts",
+                "pages": [
+                  "make-payments/accounts/verify-bank-account",
+                  "make-payments/accounts/retrieve-payout-banks"
+                ]
+              },
+              {
+                "group": "Payouts",
+                "pages": [
+                  "make-payments/transfers/initiate-transfer"
+                ]
+              },
+              {
+                "group": "Bills and Airtime",
+                "pages": [
+                  "make-payments/bills/airtime-purchase",
+                  "make-payments/bills/cable-tv-subscription",
+                  "make-payments/bills/electricity-payment"
+                ]
+              },
+              {
+                "group": "Manage teams",
+                "pages": [
+                  "make-payments/bills/airtime-purchase",
+                  "make-payments/bills/cable-tv-subscription",
+                  "make-payments/bills/electricity-payment"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "API BASICS",
+            "pages": [
+              "docs/api-basics/environment",
+              "docs/api-basics/encryption",
+              "docs/api-basics/testing",
+              "docs/api-basics/best-practices",
+              "docs/api-basics/webhooks",
+              "docs/api-basics/errors"
             ]
           }
         ]
@@ -50,76 +106,120 @@
       {
         "tab": "API reference",
         "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
+            {
+              "group": "Checkout",
+              "pages": [
+                "api-reference/checkout/introduction",
+                "api-reference/checkout/initiate-checkout",
+                "api-reference/checkout/create-ussd-payment",
+                "api-reference/checkout/get-bank-ussd",
+                "api-reference/checkout/transaction-fee",
+                "api-reference/checkout/validate-card-otp",
+                "api-reference/checkout/verify-checkout-transaction",
+                "api-reference/checkout/verify-transaction",
+                "api-reference/checkout/bank-transfer",
+                "api-reference/checkout/save-customer-card" 
+              ]
+            },
+            {
+              "group": "Payment Link",
+              "pages": [
+                "api-reference/payment-links/introduction",
+                "api-reference/payment-links/create-payment-link"
+              ]
+            },
+            {
+              "group": "Collections",
+              "pages": [
+                "api-reference/collections/introduction",
+                "api-reference/collections/direct-card-charge",
+                "api-reference/collections/direct-card-charge-internal",
+                "api-reference/collections/tokenized-card-charge",
+                "api-reference/collections/transaction-verify",
+                "api-reference/collections/transaction-verify-ref",
+                "api-reference/collections/encrypt-data",
+                "api-reference/collections/decrypt-data",
+                "api-reference/collections/threeds-challenge",
+                "api-reference/collections/get-threeds-challenge-status",
+                "api-reference/collections/direct-card-charge-auth",
+                "api-reference/collections/void-transaction"
+              ]
+            },
+            {
+              "group": "Payouts",
+              "pages": [
+                "api-reference/payouts/introduction",
+                "api-reference/payouts/retrieve-payout-banks",
+                "api-reference/payouts/verify-bank-account",
+                "api-reference/payouts/initiate-transfer",
+                "api-reference/payouts/retrieve-bank-transaction",
+                "api-reference/payouts/retrieve-balance"
+              ]
+            },
+            {
+              "group": "Refunds",
+              "pages": [
+                "api-reference/refunds/introduction",
+                "api-reference/refunds/create-refund",
+                "api-reference/refunds/create-partial-refund",
+                "api-reference/refunds/retrieve-single-refund",
+                "api-reference/refunds/retrieve-refund-lists"
+              ]
+            },
+            {
+              "group": "Reports",
+              "pages": [
+                "api-reference/reports/introduction",
+                "api-reference/reports/retrieve-report-details"
+              ]
+            },
+            {
+              "group": "Virtual Accounts",
+              "pages": [
+                "api-reference/virtual-account/introduction",
+                "api-reference/virtual-account/bank-list",
+                "api-reference/virtual-account/create-virtual-account",
+                "api-reference/virtual-account/retrieve-virtual-account-by-reference",
+                "api-reference/virtual-account/retrieve-virtual-account-by-account-number"
+              ]
+            },
+            {
+              "group": "Webhooks",
+              "pages": [
+                "api-reference/webhooks/incoming-webhook"
+              ]
+            }
         ]
+      },
+      {
+        "tab": "Changelog",
+        "group": "INTRODUCTION",
+            "pages": [
+              "update"
+            ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/favicon.png",
+    "dark": "/logo/favicon.png"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://www.app.novacpayment.com/login"
     }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
+      "x": "https://x.com/mintlif0",
       "github": "https://github.com/mintlify",
       "linkedin": "https://linkedin.com/company/mintlify"
     }

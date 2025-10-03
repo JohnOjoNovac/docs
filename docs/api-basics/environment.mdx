@@ -1,0 +1,33 @@
+---
+title: Environment
+description: Learn how to use Test and Production environments when integrating with Novac.
+---
+
+## Overview
+
+When working with Novac Payment APIs, you’ll interact with two distinct environments: the test and production environments. The test environment is designed for developers for the purpose of simulating transactions without moving real money. They also get to experiment with API requests and responses while ensuring every detail of implementation works accordingly before going live.
+
+The production environment is where the real transaction happens; therefore, it's important to protect your live credential by following the guidelines in [best practices](/docs/api-basics/best-practices).
+
+<Warning>
+   Avoid testing with customer accounts in production; instead, use test mode.
+</Warning>
+
+## Switching Between Test and Production
+
+<Info>
+   Both the production and test environments use the same `baseURL: https://api.novacpayment.com/`  The common difference is to authenticate with the appropriate environment keys.
+</Info>
+
+Each account in Novac is issued two sets of API keys:  
+
+- Public and secret keys for test 
+- Public and secret keys for production  
+
+When moving from development to production:
+
+1. Replace your test keys with the production keys in your application.
+
+2. Update your base URL to point to the Production API.
+
+3. Confirm that all configurations (webhooks, callbacks, etc.) are pointing to production endpoints. 

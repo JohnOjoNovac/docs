@@ -1,0 +1,87 @@
+---
+title: Common Errors
+description: Learn how to troubleshoot and resolve common errors when interacting with Novac Payment APIs.
+---
+
+## Overview
+
+Errors can occur during interactions with the Novac API for different reasons.  
+This guide explains the types of errors you might encounter and how to resolve them efficiently.  
+
+---
+
+## Authentication Errors
+
+Authentication errors happen when there are issues with your API credentials.  
+- Ensure you’re using the correct Public or Secret keys.  
+- Verify that keys are placed in the correct headers.  
+- Check that you’re using the right keys for **Test** vs **Live** environments.  
+
+---
+
+## Validation Errors
+
+Validation errors occur when your request data does not meet the required format or criteria.  
+Common causes include:  
+- Missing required fields.  
+- Invalid data formats for example, wrong date or number format.  
+- Exceeding character or length limits.  
+
+Fix: Review the API documentation for required parameters and correct formatting.  
+
+---
+
+## Server Errors
+
+Server errors indicate issues on Novac’s side, such as outages or temporary service interruptions.  
+
+- If you encounter a server error, wait a few moments and retry the request.  
+- If the issue persists, contact Support.  
+
+---
+
+## Common Errors
+
+### 400 Bad Request
+
+This happens when the request payload or parameters are invalid.  
+Double-check required fields, data types, and formatting.  
+
+```json
+{
+  "status": false,
+  "message": "Invalid request parameter.",
+  "data": {
+    "responseCode": "T1",
+    "responseMessage": "Invalid request parameter."
+  }
+}
+```
+
+### 401 Unauthorized
+
+This error indicates that the request lacks proper authentication credentials or the provided credentials are incorrect. Make sure you have provided valid API keys and configured them correctly in your request headers.
+
+```json
+{
+  "status": false,
+  "message": "Invalid Merchant Authorization.",
+  "data": {
+    "responseCode": "B01",
+    "responseDescription": "Invalid Merchant Authorization."
+  }
+}
+```
+
+### 403 Forbidden
+
+This error indicates that the wrong API keys is used to access API resources, Please ensure that you are using public keys for product like checkout and direct charge. while using secret keys for anything related to making payments. 
+
+```json
+{
+    "status": false,
+    "message": "Invalid Merchant Authorization..."
+}
+```
+
+

@@ -1,0 +1,50 @@
+---
+title: Best Practices
+description: Follow these guidelines to securely and efficiently integrate with Novac Payment APIs.
+---
+
+## Overview
+
+To get the most out of Novac Payment APIs, it’s important to follow industry-standard best practices.  
+These are guidelines that will help you to build a secure, reliable, and maintainable integrations for your business. By following these standards, you are ensuring that your business and customers data are well protected. 
+
+---
+
+## Authentication
+
+- Keep secret Keys confidential, expose them in frontend code or public repositories could pose serious threat as an hawker can gain auathourize access to your API resources.  
+- Ensure that you store secret keys in an environment variables.  
+- Rotate keys periodically and revoke compromised keys immediately.  
+- Use public keys only for client-side operations like checkout initialization.  
+
+---
+
+## Use Test Mode First
+
+- Always start integration in test mode to avoid real charges.  
+- Use the provided test cards, PINs, and OTPs to simulate transactions.  
+- Verify edge cases: failed payments, declined transactions, refunds, and OTP validation.  
+
+---
+
+## Receiving Payments
+
+- Ensure that you verify all transaction before giving value to your customers.
+- We advice that you listen to payment events via webhook. As its a reliable means of handling transaction updates.
+
+---
+
+## Handling Sensitive Information
+
+- Ensure that you encrypt all sensitive data when processing card information.
+- Follow our [direct card charge API](api-reference/collections/encrypt-data) for encrypting customers data. 
+- Ensure that you reduce the storage of sensitive data if possible.
+
+---
+
+## Handle Errors Gracefully
+
+- Implement **retry logic** for transient network or server errors.  
+- Always check the status, `responseCode`, and `responseMessage` in API responses.  
+- Surface clear error messages to users e.g., “Invalid card details”, instead of raw API errors.  
+- Ensure that you store all logs properly and follow [global log retention standard](https://docs.exabeam.com/en/exa-search/all/search-guide/search-overview/log-retention/global-log-retention.html)
