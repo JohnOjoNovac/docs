@@ -1,0 +1,63 @@
+---
+title: Prebuilt Novac Checkout
+description: Learn how to complete payments securely via Novac’s hosted prebuilt checkout.
+---
+
+## Overview
+
+Novac provides a prebuilt hosted checkout that allows your customers to complete payments securely and seamlessly.  
+We recommend this method because it abstracts away all the complexities of handling payment flows, allowing you to focus solely on initiating and tracking transactions.
+
+Once you successfully create a checkout payment using the API, the response will contain a `paymentRedirectUrl`.  
+
+You can simply redirect your customer to this URL to complete the payment via the prebuilt checkout interface.
+
+<Note>
+  The prebuilt checkout automatically supports all available payment options — such as Cards, Pay with Bank Transfer and USSD. without requiring you to build additional payment logic.
+</Note>
+
+---
+
+## Prerequisite
+
+<Accordion title="See details">
+  Before completing a payment via the prebuilt checkout, ensure that you have:
+  - Created a checkout payment with a [transaction reference](/docs/accept-payment/use-cases/create-checkout-with-transaction-reference) or [payment link reference](/docs/accept-payment/use-cases/accept-payment-with-payment-links#create-a-checkout-payment-with-payment-link-reference) — this provides the `paymentRedirectUrl` needed for redirection.
+  - Set up your `redirectUrl` either on the dashboard or in the API request to ensure users are properly redirected after payment completion.
+</Accordion>
+
+---
+
+## Complete a Payment
+
+After creating a checkout payment, you’ll receive a response that includes a `paymentRedirectUrl` field:
+
+```json expandable created checkout payment response data
+{
+    "status": true,
+    "message": "Transaction Initialized successfully",
+    "data": {
+        "transactionReference": "1oWbJQQHLyQqqf1SwxjSpudeA01nm",
+        "amount": 1000,
+        "statusCode": "01",
+        "statusMessage": "Transaction initiated successfully",
+        "publicKey": "nc_testpk_a0kuivx6lst100haeqo2eyoxkcqdmmeyyr",
+        "paymentRedirectUrl": "https://www.app.novacpayment.com/pay/payments?reference=1oWbJQQHLyQqqf1SwxjSpudeA01nm",
+        "collectionPaymentOptions": "CARD,PWBT,USSD,NQR"
+    }
+}
+```
+
+To complete the payment, simply redirect your customer to the `paymentRedirectUrl`.
+This URL opens Novac’s prebuilt checkout, where customers can choose a preferred payment methods.
+
+<Info> 
+  You can open the `paymentRedirectUrl` in a new tab. The prebuilt checkout handles all authentication, processing automatically. 
+</Info>
+
+<Frame>
+  <img 
+    src="/images/hosted-checkout.png" 
+    alt="Pay with Novac prebuilt checkout"
+  />
+</Frame>

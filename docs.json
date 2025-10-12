@@ -7,7 +7,7 @@
     "light": "#07C983",
     "dark": "#15803D"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/logo/logo.png",
   "navigation": {
     "tabs": [
       {
@@ -17,8 +17,7 @@
             "group": "INTRODUCTION",
             "pages": [
               "docs/introduction/welcome-to-novac",
-              "docs/introduction/key-features",
-              "docs/introduction/glossary"
+              "docs/introduction/key-features"
             ]
           },
           {
@@ -39,19 +38,19 @@
                 ] 
               },
               {
-                "group": "Plugins and integrations",
-                "pages": [
-                  "make-payments/accounts/verify-bank-account",
-                  "make-payments/accounts/retrieve-payout-banks"
-                ] 
-              },
-              {
                 "group": "Use cases",
                 "pages": [
                   "docs/accept-payment/use-cases/accept-payment-with-payment-links",
-                  "docs/accept-payment/use-cases/accept-payment-with-prebuilt-checkout",
-                  "docs/accept-payment/use-cases/refund-a-transaction",
-                  "docs/accept-payment/use-cases/accept-payment-with-custom-checkout"
+                  "docs/accept-payment/use-cases/create-checkout-with-transaction-reference",
+                  {
+                    "group":"Complete Payment",
+                    "pages": [  
+                      "docs/accept-payment/use-cases/complete-payment/prebuilt-checkout",
+                      "docs/accept-payment/use-cases/complete-payment/custom-checkout"
+                    ]
+                  },
+                  "docs/accept-payment/use-cases/accept-payment-with-direct-card-charge",
+                  "docs/accept-payment/use-cases/refund-transaction"
                 ] 
               }
             ]
@@ -60,32 +59,26 @@
             "group": "MAKE PAYMENTS",
             "pages": [
               {
-                "group": "Accounts",
+                "group": "Use cases",
                 "pages": [
-                  "make-payments/accounts/verify-bank-account",
-                  "make-payments/accounts/retrieve-payout-banks"
-                ]
+                  "docs/make-payment/use-cases/make-payout"
+                ] 
+              }
+            ]
+          },
+          {
+            "group": "ACCOUNTS",
+            "pages": [
+              {
+                "group": "Virtual Accounts",
+                "pages": [
+                  "docs/accounts/create-virtual-account"
+                ] 
               },
               {
-                "group": "Payouts",
+                "group": "Teams",
                 "pages": [
-                  "make-payments/transfers/initiate-transfer"
-                ]
-              },
-              {
-                "group": "Bills and Airtime",
-                "pages": [
-                  "make-payments/bills/airtime-purchase",
-                  "make-payments/bills/cable-tv-subscription",
-                  "make-payments/bills/electricity-payment"
-                ]
-              },
-              {
-                "group": "Manage teams",
-                "pages": [
-                  "make-payments/bills/airtime-purchase",
-                  "make-payments/bills/cable-tv-subscription",
-                  "make-payments/bills/electricity-payment"
+                  "docs/accounts/manage-teams"
                 ]
               }
             ]

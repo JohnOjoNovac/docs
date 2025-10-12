@@ -1,0 +1,41 @@
+---
+title: Refund a Transaction
+description: Learn how to use the Refund API to process full or partial refunds seamlessly.
+---
+
+## Overview
+
+The refund API allows you to reverse transactions in part or in full, providing flexibility and control when handling customer requests, errors, or operational reversals.
+
+## How It Works
+
+When a transaction is successfully completed, you can initiate a refund by making a request to the refund API.  
+
+To process the refund efficiently, follow these steps:
+
+1. Authenticate Your Request : Include your Secret Key in the `Authorization` header to securely authenticate the refund request.
+
+2. Provide the Order Reference : use the unique `reference` associated with the transaction you want to refund.
+
+3. Add Optional Details  You may include additional context for the refund using either.
+
+4. Process a Full or Partial Refund
+   - Full Refund: Refunds the entire transaction amount.
+   - Partial Refund: Refunds a portion of the total amount — useful when customers return only part of an order or when a service is partially fulfilled.
+
+---
+
+## Partial Refunds Explained
+
+A partial refund allows you to return only a portion of the original payment instead of the full amount.  
+This is ideal for scenarios like:
+
+- A customer cancels one item in a multi-item order.  
+- A service was only partially delivered.  
+- You want to retain a processing or cancellation fee.
+
+
+## What Next ?
+
+- [Initiate a full refund](/api-reference/refunds/create-refund)
+- [Initiate a partial refund](/api-reference/refunds/create-partial-refund)

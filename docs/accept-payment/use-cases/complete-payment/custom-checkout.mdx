@@ -1,0 +1,64 @@
+---
+title: Custom Checkout
+description: Learn how to complete payments with custom checkouts.
+---
+
+## Overview
+
+You may want your customers to complete a payment via a custom checkout tailored to your brand aesthitics and user experience. Custom checkout with Novac exposes the API that power our prebuilt checkout to merchant looking at creating an experience of thier own while we still handle the payment processing behind the scene.
+
+You only control the payment completion logic while we handle the payment processing.
+
+---
+
+## Prerequisite
+
+<Accordion title="See details">
+  Before completing a payment via the prebuilt checkout, ensure that you have:
+  - Created a checkout payment with a [transaction reference](/docs/accept-payment/use-cases/create-checkout-with-transaction-reference) or [payment link reference](/docs/accept-payment/use-cases/accept-payment-with-payment-links#create-a-checkout-payment-with-payment-link-reference) — this provides the `paymentRedirectUrl` needed for redirection.
+  - Set up your `redirectUrl` either on the dashboard or in the API request to ensure users are properly redirected after payment completion.
+</Accordion>
+
+---
+
+## Custom checkout flows
+
+After successfully creating a checkout payment, you can use the `transactionReference` return as part of the response object to start a custom checkout process. this requires that you have built a form in your frontend that shows the amount charged. We exposes an API that also allow you to fetch transaction fees, complete payment with card, ussd or bank transfer. 
+
+
+```mermaid
+flowchart TD
+  A[Merchant Server] -->|Create Checkout Payment| B[Novac API]
+  B -->|Response with transactionReference and paymentRedirectUrl| C[Merchant Frontend]
+  C -->|Display custom checkout form (amount and payment method buttons)| D[Customer]
+  D -->|Select preferred payment method| E[Merchant Frontend]
+  E -->|Send payment request using transactionReference &amp; payment data| F[Novac Payment Processor]
+  F -->|Process payment securely| G[Bank/Payment Gateway]
+```
+
+After creating a checkout payment, you’ll receive a response that includes a `paymentRedirectUrl` field:
+
+```json expandable created checkout payment response data
+{
+    "status": true,
+    "message": "Transaction Initialized successfully",
+    "data": {
+        "transactionReference": "1oWbJQQHLyQqqf1SwxjSpudeA01nm",
+        "amount": 1000,
+        "statusCode": "01",
+        "statusMessage": "Transaction initiated successfully",
+        "publicKey": "nc_testpk_a0kuivx6lst100haeqo2eyoxkcqdmmeyyr",
+        "paymentRedirectUrl": "https://www.app.novacpayment.com/pay/payments?reference=1oWbJQQHLyQqqf1SwxjSpudeA01nm",
+        "collectionPaymentOptions": "CARD,PWBT,USSD,NQR"
+    }
+}
+```
+
+Lets build a simple payment completion logic using Javascript as our frontend, we will build a simple form using HTML, JS
+
+## Redirect customers to your custom payment page.
+
+```html
+
+```
+
