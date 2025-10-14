@@ -1,5 +1,6 @@
 ---
 title: Welcome to Novac
+keywords: ['welcome']
 ---
 
 This documentation provides in-depth guides, use cases, and ready-to-use code samples for enterprises and businesses looking to integrate payment infrastructure into their day-to-day workflow. Let's dive straight in!
@@ -8,6 +9,8 @@ This documentation provides in-depth guides, use cases, and ready-to-use code sa
   <img 
       src="/images/resize-card.jpg" 
       alt="pay with Novac"
+      noZoom 
+      height="100"
   />
 </Frame>
 
@@ -18,34 +21,40 @@ This documentation provides in-depth guides, use cases, and ready-to-use code sa
   <Card
     icon="cart-shopping"
     title="Make Payment"
-    href="docs/make-payment/use-cases/initiate-transfer"
+    href="/docs/make-payment/use-cases/initiate-transfer"
   >
     Send money instantly with APIs for payouts, Perfect for businesses that need to automate disbursements at scale.
   </Card>
   <Card
     icon="code"
     title="Accept Payment"
-    href="docs/accept-payment/use-cases/accept-payment-with-prebuilt-checkout"
+    href="/docs/accept-payment/use-cases/accept-payment-with-payment-links"
   >
     Collect payments through hosted checkout, custom checkout, or payment links. Choose between quick setup or full control over the checkout experience.
+  </Card>
+  <Card
+    icon="notes"
+    title="Accounts"
+    href="/docs/accounts/create-virtual-account"
+  >
+    Create and manage dedicated or checkout virtual accounts to receive payments seamlessly from your customers.
+  </Card>
+  <Card
+    icon="users"
+    title="Teams"
+    href="/docs/accounts/manage-teams"
+  >
+    Add and manage team members, assign roles, and control permissions securely within your business account.
   </Card>
 </Columns>
 
 ## Developer Resources
 
-<Columns cols={3}>
-  <Card
-    icon="book-open"
-    title="OpenAPI Docs"
-    href="docs/api-reference"
-  >
-    Explore the full API specification with schemas, parameters, and examples.  
-    All in one place for faster development.
-  </Card>
+<Columns cols={2}>
   <Card
     icon="play"
     title="Interactive Playground"
-    href="docs/api-reference"
+    href="/api-reference/checkout/introduction"
   >
     Test endpoints live with your API keys.  
     Great for learning and debugging without leaving the docs.

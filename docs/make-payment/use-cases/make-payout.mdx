@@ -1,6 +1,6 @@
 ---
 title: Make a payout
-description: Learn how to use Test and Production environments when integrating with Novac.
+description: Learn how to initiate a payout request.
 ---
 
 ## Overview  
@@ -58,20 +58,12 @@ To initiate a payout, your integration follows this flow:
     S-->>C: Display status
 ```
 
-### Supported Countries
-
-| Country                | Currency          | Country Code      |
-|------------------------|-------------------|-------------------|
-| Nigeria                | NGN               | NG                |             
-| Kenya                  | KES               | KE                |
-
-
 ### Get supported payout banks based on country
 
 When a customer initiates a payout request, your system begins by fetching the list of supported banks from Novac by sending a [GET request](/api-reference/payouts/retrieve-payout-banks) to the endpoint `/api/v1/banks/{countryCode}`.
 
 <Info>
-  Novac supports payouts in multiple regions across Africa. You can retrieve each country's list of supported settlement banks by passing the country code as a path parameter in the endpoint above.
+  You can pass NG as your country code, as Nigeria is the only supported country available for payout.
 </Info>
 
 This allows you to display the available banks for the customer to select from.

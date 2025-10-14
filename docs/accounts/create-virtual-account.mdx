@@ -1,6 +1,6 @@
 ---
 title: Dedicated virtual accounts
-description: Learn how to use Test and Production environments when integrating with Novac.
+description: Learn how to create a dedicated or time-based account for payment collection.
 ---
 
 ## Overview
@@ -8,11 +8,8 @@ description: Learn how to use Test and Production environments when integrating 
 Virtual accounts can also serve as a means of accepting payment. It's a unique account created for a single customer with an `accountName` and bank account number attached to them. This account can be used to receive transfer inflows from banks.
 
 <Info>
-
   Virtual accounts are not a pocket of funds, as they only keep a record of transaction inflow to the owner for reconciliation purposes. All inflow is routed back to the business accounts.
-
 </Info>
-
 
 ## Fetch supported settlement banks
 
@@ -58,13 +55,18 @@ To create a dedicated virtual account, set `accountType` to "reserved".
 This type of account is ideal for receiving continuous inflows over time, perfect for use cases such as wallet systems, savings apps, or betting platforms, where each customer has a permanent account number assigned to them.
 
 <Note> 
-   When using `"reserved"` as the account type, set the `amount` field to `0`. This indicates that the account can accept     variable amounts rather than being tied to a fixed amount per transaction. 
+   `reserved` accounts do not expire.
+   When using `"reserved"` as the account type, set the `amount` field open. This indicates that the account can accept variable amounts rather than being tied to a fixed amount per transaction. 
 </Note>
 
 ### Checkout
 
 To create a temporary checkout account, set accountType to "checkout".
 This type of account is used for one-time payments or time-limited checkout sessions. You can define how long the account remains active using the `expiryInMinutes` field.
+
+<Note> 
+   By default `"checkout"` account expires in 20mins. However, you can extend this time by setting your preferred time.
+</Note>
 
 ## Create a virtual account
 

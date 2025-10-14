@@ -1,0 +1,75 @@
+---
+title: Save and charge customer's card
+description: Learn how to charge customer's card for recurring payments.
+---
+
+## Overview
+
+Novac allows you to securely save a customer’s card for future transactions, enabling a smooth and reliable experience for recurring or repeat payments.  
+
+This feature is especially useful for businesses offering subscriptions, memberships, or installment-based billing, as it eliminates the need for customers to re-enter their card details each time.  
+
+When a customer first completes a payment, Novac returns a **tokenized card reference** representing the saved card.
+
+You can then use this token to initiate future charges automatically without requiring additional card input from the customer.
+
+<Warning>  
+  Ensure that the actual card details are never stored on your servers — only secure, tokenized references.
+</Warning>
+
+--- 
+
+## How to get a card token reference
+
+When a payment is completed and you [verify the transaction](api-reference/checkout/verify-transaction) with it reference, we return a core transaction details containing the customers card details plus other information.
+
+```json expandable Sample card information 
+{
+    "status": true,
+    "message": "Transaction details retrieved successfully",
+    "data": {
+        "status": "successful",
+        "id": 272425,
+        "transactionReference": "1oWbJQQHLyQqqf1SwxjSpudcbcvb0",
+        "amount": 1000,
+        "chargedAmount": 1000,
+        "currency": "NGN",
+        "transactionFee": 15,
+        "gatewayResponseCode": "00",
+        "authorizationCode": "",
+        "gatewayResponseMessage": "Successful test transaction",
+        "domain": "test",
+        "channel": "card",
+        "requestIp": "102.89.82.248",
+        "paymentDescriptor": "NOVAC",
+        "transactionType": "sale",
+        "redirectUrl": "https://idrop.com/?status=successful&transactionReference=1oWbJQQHLyQqqf1SwxjSpudeA40",
+        "checkoutMetadata": "{}",
+        "card": {
+            "first6Digits": "",
+            "last4Digits": "",
+            "issuer": "",
+            "country": "",
+            "type": "",
+            "token": ""
+        },
+        "customer": {
+            "id": 121728,
+            "customerCode": "NCS_361bpiwpdvv",
+            "email": "makurseme@gmail.com",
+            "name": "Makanju"
+        },
+        "transferDetail": {
+            "bankCode": "",
+            "bankName": "",
+            "accountNumber": "",
+            "sessionId": "",
+            "creditAccountName": "",
+            "originatorName": "",
+            "originatorAccountNumber": ""
+        }
+    }
+}
+```
+
+The response payload above contains, transaction information such as, customer information, card information that includes the card token by default.

@@ -7,19 +7,29 @@ description: "Learn how to integrate Novac's Direct Card Charge API for full con
 
 The collection API enables you to process card payments directly from your backend, without redirecting customers to Novac’s checkout page. This integration gives you complete control over the payment experience. this is useful when you intend to collect card payment yourself.
 
-<Note> 
-   You are also required to be PCI DSS certified (Level 1) to make use of our collection APIs.
-</Note>
-
 If your system is not PCI-compliant, you should use the [create checkout payment and use prebuilt checkout to complete payment](/docs/accept-payment/use-cases/create-checkout-with-transaction-reference) or [Custom Checkout for USSD and Bank transfer payment](/docs/accept-payment/use-cases/complete-payment/custom-checkout).
 
 When you collect customers card information, it's important that you encrypt this details so it's safe and secure to prevent man in the middle attack. We have provided a way to encrypt and decrypt card information instead of writing a fully fledge encryption algorithm, before passing to the collection API on initialization.
 
 See [how to encrypt with Novac](/docs/api-basics/encryption) for more details on encryption.
 
-<Warning>
-   Ensure that you are using your secret key to access this API resources. 
-</Warning>
+In this tutorial, we will explain step-by-step how you can create a checkout payment with a unique transaction reference.
+
+## Prerequisite
+
+<Accordion title="See details">
+  Before you begin, ensure that you’ve completed the following steps:
+
+  - [Create a merchant account](/docs/getting-started/create-merchant-account): make sure your account is created and KYC is completed.
+  - [Obtain your secret API keys](/docs/getting-started/obtain-api-keys): required for making authenticated API calls.
+  - You are also required to be PCI DSS certified (Level 1) to make use of our collection APIs.
+
+</Accordion>
+
+<Accordion title="Payment methods">
+  Your clients will pay via :
+  1. Card Payment (It's a direct card charge API)
+</Accordion>
 
 ---
 

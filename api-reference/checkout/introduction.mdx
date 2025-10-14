@@ -13,11 +13,18 @@ This gives your customers the flexibility to choose the method most convenient t
 
 ## Quick Actions  
 
-<Columns cols={2}>
+<Columns cols={2}>  
+  <Card
+    icon="link"
+    title="Create a checkout payment (payment link)"
+    href="/api-reference/checkout/create-checkout-payment-with-payment-link"
+  >
+    Quickly generate a secure checkout payment that is tied to a payment link created vi the dashboard.  
+  </Card>
   <Card
     icon="cart-shopping"
-    title="Initiate Checkout"
-    href="docs/api-reference/checkout/initiate-checkout"
+    title="Create a checkout payment (transaction ref)"
+    href="/api-reference/checkout/initiate-checkout"
   >
     Start a new checkout session with just one request.  
     Perfect for accepting payments in your app or website.
@@ -25,8 +32,8 @@ This gives your customers the flexibility to choose the method most convenient t
 
   <Card
     icon="mobile-screen"
-    title="USSD Payments"
-    href="docs/api-reference/checkout/create-ussd-payment"
+    title="Complete USSD Payments"
+    href="/api-reference/checkout/complete-ussd-payment"
   >
     Accept payments from customers using USSD codes.  
     Includes endpoints for creating USSD requests and fetching bank-specific codes.
@@ -53,7 +60,7 @@ This gives your customers the flexibility to choose the method most convenient t
   <Card
     icon="shield"
     title="Verify Transactions"
-    href="docs/api-reference/checkout/verify-transaction"
+    href="/api-reference/checkout/verify-transaction"
   >
     Confirm the status of a transaction in real-time.  
     Essential for order fulfillment and fraud checks.
@@ -61,28 +68,25 @@ This gives your customers the flexibility to choose the method most convenient t
 
   <Card
     icon="magnifying-glass"
-    title="Verify Checkout Session"
-    href="docs/api-reference/checkout/verify-checkout-transaction"
+    title="Verify Checkout Payment"
+    href="/api-reference/checkout/verify-checkout-transaction"
   >
     Double-check the outcome of a checkout session.  
     Use it to reconcile records and trigger post-payment workflows.
   </Card>
-
   <Card
     icon="building-columns"
-    title="Bank Transfer Payments"
-    href="docs/api-reference/checkout/bank-transfer"
+    title="Complete Bank Transfer Payments"
+    href="/api-reference/checkout/bank-transfer"
   >
     Allow customers to pay via direct bank transfer.  
     Ideal for markets where bank transfers are widely used.
   </Card>
-
   <Card
     icon="credit-card"
-    title="Save Customer Card"
-    href="docs/api-reference/checkout/save-customer-card"
+    title="Complete a card payment"
+    href="/api-reference/checkout/complete-card-payment"
   >
-    Store customer card details securely for future payments.  
-    Enable one-click checkout experiences and recurring billing.
+    Use this API to complete a card payment when it's initiated. useful for when using a custom checkout
   </Card>
 </Columns>

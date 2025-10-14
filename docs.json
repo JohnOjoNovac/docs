@@ -8,6 +8,9 @@
     "dark": "#15803D"
   },
   "favicon": "/logo/logo.png",
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
   "navigation": {
     "tabs": [
       {
@@ -30,13 +33,7 @@
           {
             "group": "ACCEPT PAYMENT",
             "pages": [
-              {
-                "group": "Payment methods",
-                "pages": [
-                  "make-payments/accounts/verify-bank-account",
-                  "make-payments/accounts/retrieve-payout-banks"
-                ] 
-              },
+              "docs/accept-payment/payment-methods",
               {
                 "group": "Use cases",
                 "pages": [
@@ -44,12 +41,14 @@
                   "docs/accept-payment/use-cases/create-checkout-with-transaction-reference",
                   {
                     "group":"Complete Payment",
+                    "expanded": true,
                     "pages": [  
                       "docs/accept-payment/use-cases/complete-payment/prebuilt-checkout",
                       "docs/accept-payment/use-cases/complete-payment/custom-checkout"
                     ]
                   },
                   "docs/accept-payment/use-cases/accept-payment-with-direct-card-charge",
+                  "docs/accept-payment/use-cases/recurring-billing",
                   "docs/accept-payment/use-cases/refund-transaction"
                 ] 
               }
@@ -60,6 +59,7 @@
             "pages": [
               {
                 "group": "Use cases",
+                "expanded": true,
                 "pages": [
                   "docs/make-payment/use-cases/make-payout"
                 ] 
@@ -104,21 +104,22 @@
               "pages": [
                 "api-reference/checkout/introduction",
                 "api-reference/checkout/initiate-checkout",
-                "api-reference/checkout/create-ussd-payment",
+                "api-reference/checkout/create-checkout-payment-with-payment-link",
+                "api-reference/checkout/complete-ussd-payment",
                 "api-reference/checkout/get-bank-ussd",
                 "api-reference/checkout/transaction-fee",
                 "api-reference/checkout/validate-card-otp",
                 "api-reference/checkout/verify-checkout-transaction",
                 "api-reference/checkout/verify-transaction",
-                "api-reference/checkout/bank-transfer",
-                "api-reference/checkout/save-customer-card" 
+                "api-reference/checkout/complete-bank-transfer",
+                "api-reference/checkout/complete-card-payment"
+
               ]
             },
             {
               "group": "Payment Link",
               "pages": [
-                "api-reference/payment-links/introduction",
-                "api-reference/payment-links/create-payment-link"
+                "api-reference/payment-links/introduction"
               ]
             },
             {
@@ -160,13 +161,6 @@
               ]
             },
             {
-              "group": "Reports",
-              "pages": [
-                "api-reference/reports/introduction",
-                "api-reference/reports/retrieve-report-details"
-              ]
-            },
-            {
               "group": "Virtual Accounts",
               "pages": [
                 "api-reference/virtual-account/introduction",
@@ -174,12 +168,6 @@
                 "api-reference/virtual-account/create-virtual-account",
                 "api-reference/virtual-account/retrieve-virtual-account-by-reference",
                 "api-reference/virtual-account/retrieve-virtual-account-by-account-number"
-              ]
-            },
-            {
-              "group": "Webhooks",
-              "pages": [
-                "api-reference/webhooks/incoming-webhook"
               ]
             }
         ]
