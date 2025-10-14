@@ -1,0 +1,111 @@
+---
+title: "Accept Payments with collection API"
+description: "Learn how to integrate Novac's Direct Card Charge API for full control over payment processing."
+---
+
+## Overview
+
+The collection API enables you to process card payments directly from your backend, without redirecting customers to Novac’s checkout page. This integration gives you complete control over the payment experience. this is useful when you intend to collect card payment yourself.
+
+If your system is not PCI-compliant, you should use the [create checkout payment and use prebuilt checkout to complete payment](/docs/accept-payment/use-cases/create-checkout-with-transaction-reference) or [Custom Checkout for USSD and Bank transfer payment](/docs/accept-payment/use-cases/complete-payment/custom-checkout).
+
+When you collect customers card information, it's important that you encrypt this details so it's safe and secure to prevent man in the middle attack. We have provided a way to encrypt and decrypt card information instead of writing a fully fledge encryption algorithm, before passing to the collection API on initialization.
+
+See [how to encrypt with Novac](/docs/api-basics/encryption) for more details on encryption.
+
+In this tutorial, we will explain step-by-step how you can create a checkout payment with a unique transaction reference.
+
+## Prerequisite
+
+<Accordion title="See details">
+  Before you begin, ensure that you’ve completed the following steps:
+
+  - [Create a merchant account](/docs/getting-started/create-merchant-account): make sure your account is created and KYC is completed.
+  - [Obtain your secret API keys](/docs/getting-started/obtain-api-keys): required for making authenticated API calls.
+  - You are also required to be PCI DSS certified (Level 1) to make use of our collection APIs.
+
+</Accordion>
+
+<Accordion title="Payment methods">
+  Your clients will pay via :
+  1. Card Payment (It's a direct card charge API)
+</Accordion>
+
+---
+
+## Initiate a direct card charge
+
+To initialize a direct card charge. 
+
+1. Make a [POST request]() to this endpoint `api/v1/direct-card-charge`.
+2. Collect and encrypt customer card data such as `number`, `expiryMonth`, `expiryYear`, `cvv` and `pin`. 
+
+Pass the encrypted data in the request object.
+
+```bash expandable Request
+curl --request POST \
+  --url https://api.novacpayment.com/api/v1/direct-card-charge \
+  --header 'Authorization: <secret-key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+        "amount": 1000,
+        "card": "encryted-card-details",
+        "currency": "NGN",
+        "reference": "<string>",
+        "email": "novasamples@gmail.com",
+        "transactionType": "sales",
+        "enforceSecureAuth": true,
+        "redirectUrl": "your-redirect-url",
+        "metaData": ""
+    }'
+```
+
+```json expandable Response
+{
+    "status": false,
+    "message": "Please enter your OTP to complete the transaction",
+    "data": {
+        "authMode": "OTP",
+        "authAction": "authenticate",
+        "authEndpoint": "v1/direct-card-charge-auth",
+        "authMessage": "OTP authentication required, display input for OTP and submit the payload with OTP to the AuthEndpoint",
+        "friendlyMessage": "Didn't get the OTP? Dial *322*0# on your phone (MTN, Etisalat, Airtel) Glo, use *805*0#. : Kindly enter the OTP sent to 234810***6773 and 06d55*****************************************omba.com",
+        "fields": [
+            "otp"
+        ]
+    }
+}
+```
+
+Once a direct card charge has been successfully initiated, you will be required to validate the customer card. 
+depending on the type of authentication mode the card issuer choose to use. You can either get an authMode OTP or 3DS 
+if OTP, a one-time password will be send to the customer device phone number. An you can validate it by making a [POST request](api-reference/collections/direct-card-charge-auth) to this endpoint `api/v1/direct-card-charge-auth`. 
+
+---
+
+## Complete 3DS challenge
+
+### What is a 3DS Challenge?
+
+3D Secure (3DS) is an extra layer of authentication mandated by card networks like Visa, Mastercard, and Verve to enhance payment security and reduce fraud.  
+
+When a customer’s bank requires 3DS verification, the customer is redirected to the bank’s authentication page to confirm the transaction — usually by entering a one-time password (OTP), PIN, or using biometric verification.
+
+In the Direct Card Charge flow, Novac automatically detects when a card transaction requires 3DS authentication and returns an `authUrl` or an `authMode` value such as `3DS`. 
+
+Your system should then call the `/api/v1/threedschallenge` endpoint to complete this challenge and continue the payment process.
+
+```bash Request
+curl --request POST \
+  --url https://api.novacpayment.com/api/v1/threedschallenge \
+  --header 'Authorization: <api-key>' \
+  --header 'Content-Type: application/x-www-form-urlencoded' \
+  --data 'data=[
+  {
+    "key": "<string>",
+    "value": [
+      "<string>"
+    ]
+  }
+]'
+```

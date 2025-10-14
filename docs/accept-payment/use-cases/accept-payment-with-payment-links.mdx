@@ -1,0 +1,154 @@
+---
+title: "Accept payments with Payment Links"
+description: "Learn how to create and use Payment Links when integrating with Novac."
+---
+
+## Overview
+
+Payment Links extend the functionality of Checkouts, offering a powerful and flexible way to receive payments from your customers. They support multiple payment methods and can be accessed from anywhere, on any device, ensuring a seamless payment experience for your customers.
+Merchants can use Novac Payment Links for a variety of purposes, including online sales on social media, service subscriptions, loan repayments, and even donations or fundraising campaigns. This is due to the reusability nature.
+
+<Info>
+   You can create payment link via API or on Novac dashboard. When you create from your dashboard they are mostly reusable, this means that you can receive inflows from a single created payment link by sending to multiple customers. However if you intend to create a payment link for just one time purpose, you can create a checkout payment with payment link reference via API.  
+</Info>
+
+In this tutorial, we will explain step-by-step how you can create a payment link from the dashboard and API 
+
+<Accordion title="Prerequisite">
+  To get started you must have complete all the following item on the list below:
+
+  - [Create a merchant account](/docs/getting-started/create-merchant-account) - ensure that you have created an account and completed KYC.
+  - [Obtain API keys](/docs/getting-started/obtain-api-keys) - useful for creating one time payment link via API.
+</Accordion>
+
+<Accordion title="Payment methods">
+  Your clients can choose to pay via :
+  1. Card Payment
+  2. Bank transfer
+  3. USSD payment
+  4. NQR (Novac QR)
+</Accordion>
+
+---
+
+## Create a reusable payment link via Dashboard
+
+<Steps>
+
+<Step title="Step 1 - Log in to your Novac Dashboard">
+Sign in to your [**Novac Dashboard**](https://app.novacpayment.com) using your account credentials. 
+</Step>
+
+<Step title="Step 2 - Navigate to the Payments tab">
+On the side menu, navigate to the **Payments** tab and click on **Payment Links**.
+
+<Frame>
+  <img 
+    src="/images/link-step-0.png" 
+    alt="Navigate to Payment Links on Novac Dashboard"
+  />
+</Frame>
+</Step>
+
+<Step title="Step 3 - Click the ‘New Payment Link’ button">
+Click the **New Payment Link** button to create a new link.
+
+<Frame>
+  <img 
+    src="/images/link-step-3.png" 
+    alt="Create a new payment link on Novac"
+  />
+</Frame>
+
+Select the preferred payment link type that suits your business needs — choose **Single Payment Link** and click **Proceed**.
+
+<Note>
+The **Recurring Payment Link** option is still under development and not available for public use at the moment.
+</Note>
+
+<Frame>
+  <img 
+    src="/images/link-step-2.png" 
+    alt="Select payment link type on Novac"
+  />
+</Frame>
+</Step>
+
+<Step title="Step 4 - Complete the form">
+Fill in the required details for your new payment link in the form and click **Create Link** to complete the process.
+
+<Frame>
+  <img 
+    src="/images/link-step-4.png" 
+    alt="Fill payment link form on Novac"
+  />
+</Frame>
+<Note>
+  To allow payers to enter their own amount, simply leave the "Amount" field empty.  
+  This enables multiple people to pay any amount they choose through the link. Perfect for receiving donations or flexible payments.
+</Note>
+
+</Step>
+
+</Steps>
+
+---
+
+## Create a checkout payment with payment link reference
+
+Creating a checkout payment with payment link reference via API allows you to further customize the experience for your customer. Every single payment link created on the dashboard comes with a unique "Payment Link Reference" also known as the `paymentURL`. You can also see this as initiating a transaction via payment link reference and it can be used for one time payment.
+
+You can find this reference by clicking to view the details of any payment link on your dashboard.  
+
+Click on a single payment link from the list to view its details:
+
+<Frame description="Details of a payment link">
+  <img 
+    src="/images/payment-url.png" 
+    alt="View payment link reference on Novac Dashboard"
+  />
+</Frame>
+
+<Warning>
+  The `paymentURL` you use should correspond to a link that accepts **varying amounts**.  
+  This enables you to specify any amount dynamically via the API.  
+  However, if an amount was set when creating the link, that **exact amount** must be provided in the request object.
+</Warning>
+
+```bash expandable Request
+curl --request POST \
+  --url https://api.novacpayment.com/api/v1/paymentlink/initiate \
+  --header 'Authorization: <api-key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "paymentLinkReference": "oeXQckL",
+    "amount": 100,
+    "currency": "NGN",
+    "metaData": "{}",
+    "checkoutCustomerData": {
+      "email": "",
+      "firstName": "",
+      "lastName": ""
+    },
+    "checkoutCustomizationData": {
+      "logoUrl": "",
+      "paymentDescription": "",
+      "checkoutModalTitle": ""
+    }
+  }'
+```
+
+```json expandable Response
+{
+  "status": true,
+  "message": "Transaction initialized successfully",
+  "data": {
+    "transactionReference": "string",
+    "amount": 100,
+    "statusCode": "01",
+    "statusMessage": "Transaction initiated successfully",
+    "publicKey": "string",
+    "paymentRedirectUrl": "string"
+  }
+}
+```

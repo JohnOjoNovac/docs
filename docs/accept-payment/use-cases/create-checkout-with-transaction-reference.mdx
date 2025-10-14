@@ -1,0 +1,118 @@
+---
+title: Create a Checkout Payment.
+description: Learn how to initiate a checkout transaction with a unique reference.
+---
+
+## Overview
+
+Checkout payments are transactions initiated via the Novac API. They allow your customers to complete payments through our secure prebuilt checkout or your own custom interface.  
+
+When you create a checkout payment, typically you should expect a `paymentRedirectUrl` in the response object that is returned. You you can open this redirect url on a new tab for your customers to complete the payment via a prebuilt Novac checkout.
+
+In this guide you will learn how to create a checkout payment with a unique transaction reference. We offer two ways to create a checkout payment.
+
+- Create a checkout payment with payment link reference
+- Create a checkout payment with a unique transaction reference
+
+<Note>
+  When creating a checkout payment with payment link reference, the payment completed are usually tied to the payment link that was created on the dashboard and you can view the transactions completed by viewing the single transaction associated with the payment link on the dashboard.
+</Note>
+
+Please see how to [create a checkout payment with payment link reference](/docs/accept-payment/use-cases/accept-payment-with-payment-links). The guide should help you get set up quickly.
+  
+---
+
+In this tutorial, we will explain step-by-step how you can create a checkout payment with a unique transaction reference.
+
+## Prerequisite
+
+<Accordion title="See details">
+  Before you begin, ensure that you’ve completed the following steps:
+
+  - [Create a merchant account](/docs/getting-started/create-merchant-account): make sure your account is created and KYC is completed.
+  - [Obtain your public API keys](/docs/getting-started/obtain-api-keys): required for making authenticated API calls.
+  - [Understand how to create a checkout payment with payment link reference](/docs/accept-payment/use-cases/accept-payment-with-payment-links): helps you choose between a payment link reference and a transaction reference.
+  - [Understand how to complete payments](/docs/accept-payment/use-cases/create-checkout-with-transaction-reference#how-to-complete-payment): essential to know how to finalize payments after creation.
+</Accordion>
+
+<Accordion title="Payment methods">
+  Your clients can choose to pay via :
+  1. Card Payment
+  2. Bank transfer
+  3. USSD payment
+</Accordion>
+
+---
+
+## Create a checkout payment with a transaction reference
+
+To create a checkout transaction:
+
+1. Generate a **unique transaction reference** (minimum of 16 characters).  
+   This reference must be unique per transaction.
+2. Make a [POST request]() to the `/api/v1/initiate` endpoint.
+ 
+The `currency` field accepts `USD`, `NGN`, or `EUR`.
+You can set your `redirectUrl` in the API request or from your dashboard under the **API Keys** section.
+
+<Info> 
+  If you don’t pass a `redirectUrl` in your request, Novac will use the default one you configured on your dashboard.  
+  If no redirect URL is found, you’ll be required to provide one explicitly.
+</Info>
+
+```bash expandable Request
+curl --request POST \
+  --url https://api.novacpayment.com/api/v1/initiate \
+  --header 'Authorization: <public-key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "transactionReference": "<string>",
+  "amount": 123,
+  "currency": "<string>",
+  "metaData": "<string>",
+  "redirectUrl": "<string>",
+  "checkoutCustomerData": {
+    "email": "<string>",
+    "firstName": "<string>",
+    "lastName": "<string>",
+    "phoneNumber": "<string>"
+  },
+  "checkoutCustomizationData": {
+    "logoUrl": "<string>",
+    "paymentDescription": "<string>",
+    "checkoutModalTitle": "<string>"
+  }
+}'
+```
+
+Once the checkout transaction is created successfully, Novac will return a response similar to the example below.
+You can redirect your customer to the `paymentRedirectUrl` to complete the payment using our prebuilt checkout, or use the `transactionReference` to handle a custom checkout experience.
+
+```json expandable Response
+{
+    "status": true,
+    "message": "Transaction Initialized successfully",
+    "data": {
+        "transactionReference": "1oWbJQQHLyQqqf1SwxjSpudeA01XX",
+        "amount": 1000,
+        "statusCode": "01",
+        "statusMessage": "Transaction initiated successfully",
+        "publicKey": "nc_testpk_a0kuivx6lst100haeqo2eyoXXXXXXXeyyslr",
+        "paymentRedirectUrl": "https://www.app.novacpayment.com/pay/payments?reference=1oWbJQQHLyQqqf1SwxjSpudeA01XX",
+        "collectionPaymentOptions": "CARD,PWBT,USSD,NQR"
+    }
+}
+```
+
+---
+
+## How to complete payment
+
+We recommend allowing your customers to complete their payments using Novac’s prebuilt checkout for the fastest and most reliable experience.
+
+If you prefer to offer a custom checkout experience that matches your brand, you can build your own UI to display available payment options (e.g., Card, USSD, Bank Transfer, NQR).
+
+Learn more in the following guides:
+
+-  [Complete Payment with Prebuilt Checkout](/docs/accept-payment/use-cases/complete-payment/prebuilt-checkout)
+-  [Complete Payment with Custom Checkout](/docs/accept-payment/use-cases/complete-payment/custom-checkout)
