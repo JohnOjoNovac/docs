@@ -45,11 +45,59 @@ After creating a checkout payment, you’ll receive a response that includes a `
 
 Lets build a simple payment completion logic using Javascript as our frontend, we will build a simple form using HTML, JS
 
-## Redirect customers to your custom payment page.
+---
 
-```html
+## Redirect customers to your custom payment page
 
+On your custom checkout page, you will complete the payment with the `transactionReference` from the created checkout payment. Your customers have the option to use either USSD, card or transfer. Depending on what they select, you will call any of the APIs below to complete the payment.
+
+<CodeGroup>
+
+```bash Card Payment
+curl --request POST \
+  --url https://api.novacpayment.com/api/v1/card-payment \
+  --header 'Authorization: <api-key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "cardNumber": "<string>",
+  "expiryMonth": "<string>",
+  "expiryYear": "<string>",
+  "cvv": "<string>",
+  "cardPin": "<string>",
+  "transactionReference": "<string>"
+}'
 ```
+
+```bash Transfer Payment
+curl --request POST \
+  --url https://api.novacpayment.com/api/v1/bank-transfer \
+  --header 'Authorization: <api-key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "transactionReference": "<string>",
+  "paymentType": "<string>",
+  "cardBin": "<string>"
+}'
+```
+
+```bash USSD payment
+curl --request POST \
+  --url https://api.novacpayment.com/api/v1/ussd-payment \
+  --header 'Authorization: <api-key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "transactionReference": "<string>",
+  "bankCode": "<string>"
+}'
+```
+</CodeGroup>
+
+You can explore more about the API that powers our checkout page below
+
+- [Complete card payments](/api-reference/checkout/complete-card-payment)
+- [Complete bank transfer payment](/api-reference/checkout/complete-bank-transfer)
+- [Complete USSD payments](/api-reference/checkout/complete-ussd-payment)
+- [See List of supported USSD banks](/api-reference/checkout/get-bank-ussd)
 
 ---
 
