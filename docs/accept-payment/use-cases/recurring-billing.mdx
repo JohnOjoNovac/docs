@@ -19,32 +19,18 @@ You can then use this token to initiate future charges automatically without req
 
 --- 
 
-## How to get a card token reference
+## How customer card tokenization works
 
-When a payment is completed and you [verify the transaction](api-reference/checkout/verify-transaction) with it reference, we return a core transaction details containing the customers card details plus other information.
+When you [verify a transaction](/api-reference/checkout/verify-transaction) using its reference, Novac returns a transaction details that includes the customer’s card information.  
 
-```json expandable Sample card information 
+Within this customer’s card object, you’ll find a `token` field. This token serves as a secure representation of the customer’s card, allowing you to charge the card for future payments.
+
+```json expandable title="Sample Transaction Verification Response 
 {
     "status": true,
     "message": "Transaction details retrieved successfully",
     "data": {
-        "status": "successful",
-        "id": 272425,
-        "transactionReference": "1oWbJQQHLyQqqf1SwxjSpudcbcvb0",
-        "amount": 1000,
-        "chargedAmount": 1000,
-        "currency": "NGN",
-        "transactionFee": 15,
-        "gatewayResponseCode": "00",
-        "authorizationCode": "",
-        "gatewayResponseMessage": "Successful test transaction",
-        "domain": "test",
-        "channel": "card",
-        "requestIp": "102.89.82.248",
-        "paymentDescriptor": "NOVAC",
-        "transactionType": "sale",
-        "redirectUrl": "https://idrop.com/?status=successful&transactionReference=1oWbJQQHLyQqqf1SwxjSpudeA40",
-        "checkoutMetadata": "{}",
+        // transaction information
         "card": {
             "first6Digits": "",
             "last4Digits": "",
@@ -54,22 +40,36 @@ When a payment is completed and you [verify the transaction](api-reference/check
             "token": ""
         },
         "customer": {
-            "id": 121728,
-            "customerCode": "NCS_361bpiwpdvv",
-            "email": "makurseme@gmail.com",
-            "name": "Makanju"
+            // customer information
         },
         "transferDetail": {
-            "bankCode": "",
-            "bankName": "",
-            "accountNumber": "",
-            "sessionId": "",
-            "creditAccountName": "",
-            "originatorName": "",
-            "originatorAccountNumber": ""
+            // transfer information if payment is transfer
         }
     }
 }
 ```
+In the example above, the `token` field represents the customer’s securely stored card reference.
+This token is what you’ll use to charge the customer again in the future — without requesting their card details.
 
-The response payload above contains, transaction information such as, customer information, card information that includes the card token by default.
+---
+
+## Charge a customer's saved card
+
+To charge a customer’s saved card, make a [POST request](api-reference/collections/tokenized-card-charge) to the `/api/v1/tokenized-card-charge endpoint`.
+This request uses the previously returned token to process the payment securely.
+
+```json expandable Request 
+    curl --request POST \
+        --url https://api.novacpayment.com/api/v1/tokenized-card-charge \
+        --header 'Authorization: <api-key>' \
+        --header 'Content-Type: application/json' \
+        --data '{
+            "token": "<string>",
+            "currency": "<string>",
+            "amount": 123,
+            "email": "<string>",
+            "firstName": "<string>",
+            "lastName": "<string>",
+            "reference": "<string>"
+       }'
+```

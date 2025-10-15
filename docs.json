@@ -49,6 +49,7 @@
                   },
                   "docs/accept-payment/use-cases/accept-payment-with-direct-card-charge",
                   "docs/accept-payment/use-cases/recurring-billing",
+                  "docs/accept-payment/use-cases/verify-transaction",
                   "docs/accept-payment/use-cases/refund-transaction"
                 ] 
               }
@@ -71,12 +72,14 @@
             "pages": [
               {
                 "group": "Virtual Accounts",
+                "expanded": true,
                 "pages": [
                   "docs/accounts/create-virtual-account"
                 ] 
               },
               {
                 "group": "Teams",
+                "expanded": true,
                 "pages": [
                   "docs/accounts/manage-teams"
                 ]
@@ -113,7 +116,6 @@
                 "api-reference/checkout/verify-transaction",
                 "api-reference/checkout/complete-bank-transfer",
                 "api-reference/checkout/complete-card-payment"
-
               ]
             },
             {

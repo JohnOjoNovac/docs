@@ -1,0 +1,223 @@
+---
+title: Verify a Transaction
+description: Learn how to verify a transaction with reference attached to its callbackURl.
+---
+
+## Overview
+
+When a customer completes a payment on Novac’s checkout, they are redirected to the `callbackURL` you provided during checkout initialization.  
+Novac automatically appends query parameters such as the transaction reference and status to this URL.  You can then use this reference to verify the transaction directly from your server before confirming payment or giving value to the customer.
+
+This approach ensures you are validating each transaction against Novac’s API response, not relying solely on the status parameter in the callback.
+
+---
+
+## Handling Callback URL After Payment Completion
+
+When payment is completed, We redirects the user to your callback URL as shown below:
+
+```http
+GET {your-callback-url}?reference=<string>&status=<string>
+```
+
+To verify a transaction, make a [GET request](api-reference/checkout/verify-transaction) to `api/v1/checkout/{transactionRef}/verify`
+by passing the transaction reference as a path parameter. 
+
+<Warning>
+   It's important that you don’t rely on the status alone via callbackURL, Always verify a transaction before marking it as complete.
+</Warning>
+
+```bash Request
+curl --request GET \
+  --url https://api.novacpayment.com/api/v1/checkout/{transactionRef}/verify \
+  --header 'Authorization: <api-key>'
+```
+
+```bash expandable Response
+{
+  "status": true,
+  "message": "Transaction details retrieved successfully",
+  "data": {
+    "status": "pending | successful | failed",
+    "id": 0,
+    "transactionReference": "string",
+    "amount": 0,
+    "chargedAmount": 0,
+    "currency": "NGN",
+    "transactionFee": 0,
+    "gatewayResponseCode": "00",
+    "gatewayResponseMessage": "string",
+    "domain": "string",
+    "channel": "string",
+    "requestIp": "string",
+    "paymentDescriptor": "NOVAC",
+    "transactionType": "",
+    "redirectUrl": "",
+    "card": {
+      "first6Digits": "string",
+      "last4Digits": "string",
+      "issuer": "",
+      "country": "string",
+      "type": "string"
+    },
+    "customer": {
+      "id": 0,
+      "customerCode": "string",
+      "email": "string",
+      "name": "string"
+    },
+    "transferDetail": {
+      "bankCode": "string",
+      "bankName": "string",
+      "accountNumber": "string",
+      "sessionId": "string",
+      "creditAccountName": "string",
+      "originatorName": "string",
+      "originatorAccountNumber": "string"
+    }
+  }
+}
+```
+
+
+You can also define a server-side route, for example `/payment/callback` that reads these query parameters, extracts the transaction reference, and calls Novac’s Verify Transaction API to confirm the actual payment status.
+
+Below are examples in multiple languages showing how to handle and verify the callback.
+
+<CodeGroup>
+```JavaScript NodeJs
+import express from "express";
+import axios from "axios";
+
+const app = express();
+
+app.get("/payment/callback", async (req, res) => {
+  const { reference, status } = req.query;
+
+  try {
+    const response = await axios.get(
+      `https://api.novacpayment.com/api/v1/checkout/${reference}/verify`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NOVAC_API_KEY}`,
+        },
+      }
+    );
+
+    const verifiedTransaction = response.data;
+    console.log("Verified Transaction:", verifiedTransaction);
+    res.send("Payment verified successfully!");
+  } catch (error) {
+    console.error("Verification failed:", error.message);
+    res.status(500).send("Verification failed.");
+  }
+});
+
+app.listen(3000, () =>
+  console.log("Server listening on http://localhost:3000")
+);
+
+```
+
+```php PHP
+<?php
+$reference = $_GET['reference'] ?? null;
+$status = $_GET['status'] ?? null;
+
+echo "Payment completed. Reference: $reference, Status: $status <br>";
+
+if ($reference) {
+    $secretKey = getenv("NOVAC_API_KEY");
+    $url = "https://api.novacpayment.com/api/v1/checkout/{$reference}/verify";
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $secretKey"
+    ]);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    if ($response) {
+        echo "Verified Transaction: " . $response;
+    } else {
+        echo "Verification failed.";
+    }
+}
+
+```
+
+```go Golang
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"os"
+)
+
+func callbackHandler(w http.ResponseWriter, r *http.Request) {
+	reference := r.URL.Query().Get("reference")
+	status := r.URL.Query().Get("status")
+
+	fmt.Printf("Payment completed. Reference=%s Status=%s\n", reference, status)
+
+	secretKey := os.Getenv("NOVAC_API_KEY")
+	url := fmt.Sprintf("https://api.novacpayment.com/api/v1/checkout/%s/verify", reference)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("Authorization", "Bearer "+secretKey)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Verification failed:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("Verified Transaction:", string(body))
+	w.Write([]byte("Payment verified successfully!"))
+}
+
+func main() {
+	http.HandleFunc("/payment/callback", callbackHandler)
+	fmt.Println("Server listening on :3000")
+	http.ListenAndServe(":3000", nil)
+}
+
+```
+
+```py python
+from flask import Flask, request
+import requests
+import os
+
+app = Flask(__name__)
+
+@app.route("/payment/callback", methods=["GET"])
+def payment_callback():
+    reference = request.args.get("reference")
+    status = request.args.get("status")
+
+    print(f"Payment completed. Reference={reference}, Status={status}")
+
+    try:
+        url = f"https://api.novacpayment.com/api/v1/checkout/{reference}/verify"
+        headers = {"Authorization": f"Bearer {os.getenv('NOVAC_API_KEY')}"}
+        response = requests.get(url, headers=headers)
+        print("Verified Transaction:", response.json())
+
+        return "Payment verified successfully!"
+    except Exception as e:
+        print("Verification failed:", str(e))
+        return "Verification failed.", 500
+
+if __name__ == "__main__":
+    app.run(port=3000, debug=True)
+
+```
+</CodeGroup>
