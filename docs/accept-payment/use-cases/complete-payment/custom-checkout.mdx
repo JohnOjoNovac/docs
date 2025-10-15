@@ -25,17 +25,6 @@ You only control the payment completion logic while we handle the payment proces
 
 After successfully creating a checkout payment, you can use the `transactionReference` return as part of the response object to start a custom checkout process. this requires that you have built a form in your frontend that shows the amount charged. We exposes an API that also allow you to fetch transaction fees, complete payment with card, ussd or bank transfer. 
 
-
-```mermaid
-flowchart TD
-  A[Merchant Server] -->|Create Checkout Payment| B[Novac API]
-  B -->|Response with transactionReference and paymentRedirectUrl| C[Merchant Frontend]
-  C -->|Display custom checkout form (amount and payment method buttons)| D[Customer]
-  D -->|Select preferred payment method| E[Merchant Frontend]
-  E -->|Send payment request using transactionReference &amp; payment data| F[Novac Payment Processor]
-  F -->|Process payment securely| G[Bank/Payment Gateway]
-```
-
 After creating a checkout payment, you’ll receive a response that includes a `paymentRedirectUrl` field:
 
 ```json expandable created checkout payment response data
@@ -56,9 +45,69 @@ After creating a checkout payment, you’ll receive a response that includes a `
 
 Lets build a simple payment completion logic using Javascript as our frontend, we will build a simple form using HTML, JS
 
-## Redirect customers to your custom payment page.
+---
 
-```html
+## Redirect customers to your custom payment page
 
+On your custom checkout page, you will complete the payment with the `transactionReference` from the created checkout payment. Your customers have the option to use either USSD, card or transfer. Depending on what they select, you will call any of the APIs below to complete the payment.
+
+<CodeGroup>
+
+```bash Card Payment
+curl --request POST \
+  --url https://api.novacpayment.com/api/v1/card-payment \
+  --header 'Authorization: <api-key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "cardNumber": "<string>",
+  "expiryMonth": "<string>",
+  "expiryYear": "<string>",
+  "cvv": "<string>",
+  "cardPin": "<string>",
+  "transactionReference": "<string>"
+}'
 ```
+
+```bash Transfer Payment
+curl --request POST \
+  --url https://api.novacpayment.com/api/v1/bank-transfer \
+  --header 'Authorization: <api-key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "transactionReference": "<string>",
+  "paymentType": "<string>",
+  "cardBin": "<string>"
+}'
+```
+
+```bash USSD payment
+curl --request POST \
+  --url https://api.novacpayment.com/api/v1/ussd-payment \
+  --header 'Authorization: <api-key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "transactionReference": "<string>",
+  "bankCode": "<string>"
+}'
+```
+</CodeGroup>
+
+You can explore more about the API that powers our checkout page below
+
+- [Complete card payments](/api-reference/checkout/complete-card-payment)
+- [Complete bank transfer payment](/api-reference/checkout/complete-bank-transfer)
+- [Complete USSD payments](/api-reference/checkout/complete-ussd-payment)
+- [See List of supported USSD banks](/api-reference/checkout/get-bank-ussd)
+
+---
+
+## What’s Next?
+
+Learn how to verify transactions after payment is completed: 
+
+- Using Webhooks: Automatically receive payment status updates from Novac when a transaction is completed.  
+  [Learn how to verify a transaction via webhooks](/docs/api-basics/webhooks)
+
+- Using the Callback URL: Manually verify the payment using the `reference` parameter sent to your callback URL.  
+  [Learn how to verify a transaction using a callback reference](/docs/accept-payment/use-cases/verify-transaction)
 

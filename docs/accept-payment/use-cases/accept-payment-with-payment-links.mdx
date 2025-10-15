@@ -9,10 +9,10 @@ Payment Links extend the functionality of Checkouts, offering a powerful and fle
 Merchants can use Novac Payment Links for a variety of purposes, including online sales on social media, service subscriptions, loan repayments, and even donations or fundraising campaigns. This is due to the reusability nature.
 
 <Info>
-   You can create payment link via API or on Novac dashboard. When you create from your dashboard they are mostly reusable, this means that you can receive inflows from a single created payment link by sending to multiple customers. However if you intend to create a payment link for just one time purpose, you can create a checkout payment with payment link reference via API.  
+   You can create a payment link on Novac dashboard. When you create from your dashboard they are mostly reusable, this means that you can receive inflows from a single created payment link by sending to multiple customers. However, if you want to create a checkout payment that is uniquely tied to a specific payment link — for example, for a one-time or customer-specific transaction, you should create it via the API.
 </Info>
 
-In this tutorial, we will explain step-by-step how you can create a payment link from the dashboard and API 
+In this tutorial, we will explain step-by-step how you can create a payment link from the dashboard. Also, we will explain how to create a checkout payment linked with the created payment link via the API.
 
 <Accordion title="Prerequisite">
   To get started you must have complete all the following item on the list below:
@@ -23,10 +23,10 @@ In this tutorial, we will explain step-by-step how you can create a payment link
 
 <Accordion title="Payment methods">
   Your clients can choose to pay via :
-  1. Card Payment
-  2. Bank transfer
-  3. USSD payment
-  4. NQR (Novac QR)
+  1. Card Payment - Available in checkout payment.
+  2. Bank transfer - Available in checkout payment.
+  3. USSD payment - Available in checkout payment.
+  4. NQR (Novac QR) - Available for merchant to use when they create a payment link on the dashboard.
 </Accordion>
 
 ---
@@ -152,3 +152,19 @@ curl --request POST \
   }
 }
 ```
+
+Now that a checkout payment has been created, your customer needs to complete the payment by either using [Novac prebuilt checkout](/docs/accept-payment/use-cases/complete-payment/prebuilt-checkout) or redirecting them to a [custom checkout](/docs/accept-payment/use-cases/complete-payment/custom-checkout).
+
+---
+
+## What’s Next?
+
+After a checkout payment has been successfully processed and marked as completed, it’s important to verify the transaction before giving value to your customer.  
+
+You can verify the transaction in two ways:
+
+- Using Webhooks: Automatically receive payment status updates from Novac when a transaction is completed.  
+  [Learn how to verify a transaction via webhooks](/docs/api-basics/webhooks)
+
+- Using the Callback URL: Manually verify the payment using the `reference` parameter sent to your callback URL.  
+  [Learn how to verify a transaction using a callback reference](/docs/accept-payment/use-cases/verify-transaction)
